@@ -7,7 +7,10 @@ surface latency problems. The causes for the latency problems include large
 payloads, complex transactions, and queries with full table scans.
 Instrumentation for metrics and trace collection using OpenCensus and export to
 Stackdriver. The application randomly executes a read and write transaction
-using one of a variety of query and transaction strategies on each iteration. 
+using one of a variety of query and transaction strategies on each iteration.
+The related paper
+[Troubleshooting app latency with Cloud Spanner and OpenCensus](https://cloud.google.com/solutions/troubleshooting-app-latency-with-cloud-spanner-and-opencensus) provides
+detailed steps and description of interpretation of results.
 
 After running the application for a period, view the data collected
 in the Stackdriver Monitoring and Stackdriver Trace user interfaces to check
