@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-load-generator
+  labels:
+    app: metrics-load-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metrics-load-generator
+  template:
+    metadata:
+      labels:
+        app: metrics-load-generator
+    spec:
+      containers:
+      - name: metrics-load-generator
+        image: gcr.io/PROJECT_ID/metrics-load-generator:v0.0.2
+        env:
+        - name: GO111MODULE
+          value: "on"
+        - name: OTEL_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: OTEL_AGENT_ENDPOINT
+          value: $(OTEL_AGENT_HOST):55678
+        resources:
+          requests:
+            cpu: "50m"

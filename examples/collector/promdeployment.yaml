@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  labels:
+    app: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - name: prometheus
+        image: prom/prometheus
+        volumeMounts:
+          - name: prometheus-volume
+            mountPath: /etc/prometheus/prometheus.yml
+            subPath: prometheus.yaml
+        ports:
+        - containerPort: 9090
+        resources:
+          requests:
+            cpu: "50m"
+      volumes:
+        - name: prometheus-volume
+          configMap:
+           name: prometheus-config-volume

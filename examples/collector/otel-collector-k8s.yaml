@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+  labels:
+    app: opencesus
+    component: otel-collector
+spec:
+  ports:
+  - name: pprof
+    port: 1888
+    protocol: TCP
+    targetPort: 1888
+  - name: prom-metrics
+    port: 8888
+    protocol: TCP
+    targetPort: 8888
+  - name: prom-exporter
+    port: 8889
+    protocol: TCP
+    targetPort: 8889
+  - name: opencensus
+    port: 55678
+    protocol: TCP
+    targetPort: 55678
+  - name: zpages
+    port: 55680
+    protocol: TCP
+    targetPort: 55679
+  selector:
+    component: otel-collector
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: otel-collector
+  labels:
+    app: opentelemetry
+    component: otel-collector
+spec:
+  minReadySeconds: 5
+  progressDeadlineSeconds: 120
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "8888"
+        prometheus.io/scrape: "true"
+      labels:
+        app: opentelemetry
+        component: otel-collector
+    spec:
+      containers:
+      - command:
+          - "/otelsvc"
+          - "--config=/conf/otel-collector-config.yaml"
+        env:
+        - name: GOGC
+          value: "80"
+        image: omnition/opentelemetry-service:v0.0.2
+        name: otel-collector
+        resources:
+          limits:
+            cpu: 1
+            memory: 2Gi
+          requests:
+            cpu: 200m
+            memory: 400Mi
+        ports:
+          - containerPort: 1888
+          - containerPort: 8888
+          - containerPort: 8889
+          - containerPort: 55678
+          - containerPort: 55680
+        volumeMounts:
+        - name: otel-collector-config-vol
+          mountPath: /conf/otel-collector-config.yaml
+          subPath: otel-collector-config.yaml
+      volumes:
+        - name: otel-collector-config-vol
+          configMap:
+            name: otel-collector-config-vol

@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Service
+apiVersion: v1
+metadata:
+  name: zipkin
+spec:
+  type: LoadBalancer
+  selector:
+    app: zipkin
+  ports:
+  - name: zipkin
+    protocol: TCP
+    port: 9411
+    targetPort: 9411

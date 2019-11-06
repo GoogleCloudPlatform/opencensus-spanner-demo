@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: otel-agent
+  labels:
+    app: opentelemetry
+    component: otel-agent
+spec:
+  template:
+    metadata:
+      labels:
+        app: opentelemetry
+        component: otelsvc-agent
+    spec:
+      containers:
+      - command:
+          - "/otelsvc"
+          - "--config=/conf/otel-agent-config.yaml"
+        image: omnition/opentelemetry-service:v0.0.2
+        name: otel-agent
+        resources:
+          limits:
+            cpu: 250m
+            memory: 500Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+        ports:
+          - containerPort: 1777  # pprof extension
+          - containerPort: 14268 # Jaeger receiver
+          - containerPort: 55678 # OpenCensus receiver
+            hostPort: 55678
+            protocol: TCP
+          - containerPort: 55679 # zpages extension
+            hostPort: 55679
+            protocol: TCP
+        volumeMounts:
+          - name: otel-agent-config-vol
+            mountPath: /conf/otel-agent-config.yaml
+            subPath: otel-agent-config.yaml
+      volumes:
+        - name: otel-agent-config-vol
+          configMap:
+            name: otel-agent-config-vol
+---

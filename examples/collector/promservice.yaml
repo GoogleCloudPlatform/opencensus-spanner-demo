@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Service
+apiVersion: v1
+metadata:
+  name: prometheus
+spec:
+  type: LoadBalancer
+  selector:
+    app: prometheus
+  ports:
+  - name: prometheus
+    protocol: TCP
+    port: 9090
+    targetPort: 9090
