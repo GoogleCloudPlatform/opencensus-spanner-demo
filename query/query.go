@@ -24,7 +24,7 @@ import (
 	"go.opencensus.io/trace"
 	"google.golang.org/api/iterator"
 
-	log "github.com/GoogleCloudPlatform/oc-spannerlab/applog"
+	log "github.com/GoogleCloudPlatform/opencensus-spanner-demo/applog"
 )
 
 // Queries albums and singers with a join

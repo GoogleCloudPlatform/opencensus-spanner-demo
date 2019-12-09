@@ -24,7 +24,7 @@ import (
 	"cloud.google.com/go/spanner"
 	"google.golang.org/api/iterator"
 
-	log "github.com/GoogleCloudPlatform/oc-spannerlab/applog"
+	log "github.com/GoogleCloudPlatform/opencensus-spanner-demo/applog"
 )
 
 const (

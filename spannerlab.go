@@ -30,10 +30,10 @@ import (
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace"
 
-	log "github.com/GoogleCloudPlatform/oc-spannerlab/applog"
-	"github.com/GoogleCloudPlatform/oc-spannerlab/query"
-	"github.com/GoogleCloudPlatform/oc-spannerlab/testdata"
-	"github.com/GoogleCloudPlatform/oc-spannerlab/update"
+	log "github.com/GoogleCloudPlatform/opencensus-spanner-demo/applog"
+	"github.com/GoogleCloudPlatform/opencensus-spanner-demo/query"
+	"github.com/GoogleCloudPlatform/opencensus-spanner-demo/testdata"
+	"github.com/GoogleCloudPlatform/opencensus-spanner-demo/update"
 )
 
 // [END spannerlab_imports]

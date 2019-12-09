@@ -1,4 +1,4 @@
-module github.com/GoogleCloudPlatform/oc-spannerlab
+module github.com/GoogleCloudPlatform/opencensus-spanner-demo
 
 go 1.11
 
